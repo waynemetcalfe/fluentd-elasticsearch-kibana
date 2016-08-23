@@ -1,0 +1,2 @@
+elasticsearch.requestTimeout: 600000
+elasticsearch.url: 'http://elasticsearch:9200'

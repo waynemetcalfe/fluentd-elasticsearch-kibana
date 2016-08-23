@@ -1,0 +1,51 @@
+version: "2"
+
+services:
+  fluentd:
+    build: ./fluentd
+    restart: unless-stopped
+    ports:
+      - "24224:24224/tcp"
+      - "24224:24224/udp"
+    volumes:
+      - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf
+    networks:
+      - lognet
+
+  elasticsearch:
+    image: elasticsearch
+    restart: unless-stopped
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+    env_file:
+      - elasticsearch/.env
+    networks:
+      - lognet
+    ulimits:
+      nofile:
+        soft: 60000
+        hard: 60000
+
+  kibana:
+    image: kibana
+    restart: unless-stopped
+    ports:
+      - "80:5601"
+    volumes:
+      - ./kibana/kibana.yml:/opt/kibana/config/kibana.yml
+    networks:
+      - lognet
+
+  curator:
+    build: ./curator
+    networks:
+      - lognet
+
+networks:
+  lognet:
+    driver: bridge
+
+
