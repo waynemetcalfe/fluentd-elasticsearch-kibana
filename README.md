@@ -1,11 +1,13 @@
 # fluentd-elasticsearch-kibana
 Complete fluentd aggregator, elasticsearch, curator and kibana environment via docker compose
 
-To run, replace __PATTERN__ with your index name:
+To run, replace \__PATTERN\__ with your index name:
+
     * grep -rl __PATTERN__ --include=*{yml,conf} | xargs sed -i 's/__PATTERN__/<your index name>/'
     * docker compose build && docker compose up -d
 
 This results in the following:
+
     * elasticsearch at localhost:9200
     * kibana at localhost:80
     * fluentd in aggregator mode at localhost:24224
